@@ -19,6 +19,9 @@ const ProyectoModal = (props) => {
 
   const guardarOnClick = () => {
     props.onGuardarProyecto(txtNombreProyecto,txtUsuario,txtRating)
+    setTxtNombreProyecto('')
+    setTxtUsuario('')
+    setTxtRating(0)
   }
 
   return (

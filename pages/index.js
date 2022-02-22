@@ -9,6 +9,7 @@ const Home = () => {
 
   // CODIGO PARA LISTA PROYECTOS INICIO
   const [listadoDeProyectos, setListadoDeProyectos] = useState([])
+
   // CODIGO PARA LISTA PROYECTOS FIN
 
   // CODIGO PARA BANNER INICIO
@@ -53,7 +54,7 @@ const Home = () => {
       <div className="mt-4">
         <Banner imagenes={listadoDeImagenes}/>
         <div className="row mt-4">
-          <ListaProyectos proyectos={listadoDeProyectos} />
+          <ListaProyectos proyectos={listadoDeProyectos} modo="lista" />
           <FormularioLogin onLogin={loginHandler} error={errorLogin} />
         </div>
       </div>

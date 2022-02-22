@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 const ListaProyectos = (props) => {
 
@@ -8,43 +8,92 @@ const ListaProyectos = (props) => {
     setSeDebeMostrar(!seDebeMostrar)
   }
 
-  if(seDebeMostrar){
+  //MODOS -> LISTA | CRUD
+  if (props.modo == 'lista') {
+    if (seDebeMostrar) {
+      return (
+        <main className="col-md-8">
+          <h3>Ranking</h3>
+          <button type="button" className="btn btn-danger" onClick={btnCambiarEstadoOnClick}>Ocultar</button>
+          <div className="table-responsive">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Nombre Proyecto</th>
+                  <th>Usuario</th>
+                  <th>Puntaje</th>
+                </tr>
+              </thead>
+              <tbody id="data_proyectos">
+                {
+                  props.proyectos.map((element, index) => {
+                    return (
+                      <tr key={element.id}>
+                        <td>{element.nombre}</td>
+                        <td>{element.usuario}</td>
+                        <td>{element.rating}</td>
+                      </tr>
+                    )
+                  })
+                }
+              </tbody>
+            </table>
+          </div>
+        </main>
+      )
+    } else {
+      return (
+        <main className="col-md-8">
+          <h3>Ranking</h3>
+          <button type="button" className="btn btn-success" onClick={btnCambiarEstadoOnClick}>Mostrar</button>
+        </main>
+      )
+    }
+  } else {
     return (
       <main className="col-md-8">
         <h3>Ranking</h3>
-        <button type="button" className="btn btn-danger" onClick={btnCambiarEstadoOnClick}>Ocultar</button>
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Nombre Proyecto</th>
-              <th>Usuario</th>
-              <th>Puntaje</th>
-            </tr>
-          </thead>
-          <tbody id="data_proyectos">
-            {
-              props.proyectos.map((element,index)=>{
-                return (
-                  <tr key={element.id}>
-                    <td>{element.nombre}</td>
-                    <td>{element.usuario}</td>
-                    <td>{element.rating}</td>
-                  </tr>
-                )
-              })
-            }
-          </tbody>
-        </table>
-      </main>
-    )
-  }else{
-    return (
-      <main className="col-md-8">
-        <h3>Ranking</h3>
-        <button type="button" className="btn btn-success" onClick={btnCambiarEstadoOnClick}>Mostrar</button>
+        <div className="table-responsive">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Nombre Proyecto</th>
+                <th>Usuario</th>
+                <th>Puntaje</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="data_proyectos">
+              {
+                props.proyectos.map((element, index) => {
+                  return (
+                    <tr key={element.id}>
+                      <td>{element.nombre}</td>
+                      <td>{element.usuario}</td>
+                      <td>{element.rating}</td>
+                      <td>
+                        <button 
+                          className="btn btn-link"
+                          onClick={() => {props.onEditarProyecto(element.id)}}>
+                          Editar
+                        </button>
+                        <button 
+                          className="btn btn-danger" 
+                          onClick={()=>{props.onEliminarProyecto(element.id)}}>
+                          Eliminar
+                        </button>
+                      </td>
+                    </tr>
+                  )
+                })
+              }
+            </tbody>
+          </table>
+        </div>
       </main>
     )
   }
+
 
 }
 export default ListaProyectos
