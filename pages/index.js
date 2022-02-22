@@ -5,6 +5,16 @@ import ListaProyectos from "../components/lista_proyectos.component"
 import MenuNavegacion from "../components/menu_navegacion.component"
 
 const Home = () => {
+
+  // CODIGO PARA LISTA PROYECTOS INICIO
+  const listadoDeProyectos = [
+    {nombre : "P1", usuario: 'u1', puntaje: 1.1},
+    {nombre : "P2", usuario: 'u2', puntaje: 1.2},
+    {nombre : "P3", usuario: 'u3', puntaje: 1.3},
+    {nombre : "P4", usuario: 'u4', puntaje: 1.4}
+  ]
+  // CODIGO PARA LISTA PROYECTOS FIN
+
   return (
     <div>
       <header>
@@ -14,7 +24,7 @@ const Home = () => {
       <div className="mt-4">
         <Banner />
         <div className="row mt-4">
-          <ListaProyectos />
+          <ListaProyectos proyectos={ listadoDeProyectos }/>
           <FormularioLogin />
         </div>
       </div>
