@@ -1,5 +1,3 @@
-import Image from "next/image"
-
 const Banner = (props) => {
   return (
     <div id="carouselExampleControls" className="carousel slide" data-bs-ride="carousel">
