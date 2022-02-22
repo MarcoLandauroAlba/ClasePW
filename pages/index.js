@@ -19,12 +19,12 @@ const Home = () => {
   //USEEFFECT COMPARTIDO PARA BANNER Y LISTA PROYECTOS INICIO =====
   useEffect(() => {
     const fetchUseEffect = async () => {
-      //http://demo9667197.mockable.io/proyectos
-      const responseProj = await fetch("http://demo9667197.mockable.io/proyectos")
+      //api/proyectos
+      const responseProj = await fetch("/api/proyectos")
       const dataProj = await responseProj.json()
       setListadoDeProyectos(dataProj.proyectos)
-      //http://demo9667197.mockable.io/
-      const responseImg = await fetch("http://demo9667197.mockable.io/")
+      //api/imagenes
+      const responseImg = await fetch("/api/imagenes")
       const dataImg = await responseImg.json()
       setListadoDeImagenes(dataImg.images)
     }

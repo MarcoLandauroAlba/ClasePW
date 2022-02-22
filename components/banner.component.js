@@ -1,3 +1,5 @@
+import Image from "next/image"
+
 const Banner = (props) => {
   return (
     <div id="carouselExampleControls" className="carousel slide" data-bs-ride="carousel">
@@ -5,17 +7,30 @@ const Banner = (props) => {
       <div id="carrusel" className="carousel-inner">
         {
           props.imagenes.map((element, index) => {
-            console.log(element)
             if (index > 0) {
               return (
                 <div key={index} className="carousel-item">
-                  <img className="d-block w-100" src={element} alt="..." />
+                  <Image 
+                    className="d-block w-100" 
+                    src={element} 
+                    alt="..."
+                    width={500}
+                    height={250}
+                    objectFit="cover"
+                  />
                 </div>
               )
             } else {
               return (
                 <div key={index} className="carousel-item active">
-                  <img className="d-block w-100" src={element} alt="..." />
+                <Image
+                    className="d-block w-100" 
+                    src={element} 
+                    alt="..."
+                    width={500}
+                    height={250}
+                    objectFit="cover"
+                  />
                 </div>
               )
             }
