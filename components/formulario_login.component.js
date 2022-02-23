@@ -50,7 +50,7 @@ const FormularioLogin = (props) => {
             >
               Login
             </button>
-            <a href="#">Registro</a>
+            <button className="btn btn-link">Registro</button>
           </form>
           {
             props.error?<div className="alert alert-danger mt-2">Error en Login</div>:<></>

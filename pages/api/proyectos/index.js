@@ -1,21 +1,17 @@
-const proyectosHandler = (req, res) => {
+import { guardarProyectos, obtenerProyectos } from "../../../dao/proyectos"
+
+const proyectosHandler = async(req, res) => {
   if(req.method=="GET"){
-    const proyectos = [
-      {
-        id: 1,
-        nombre: "PA",
-        usuario: 'UA',
-        rating: 4.1
-      },
-      {
-        id: 2,
-        nombre: "PB",
-        usuario: 'UB',
-        rating: 4.2
-      }
-    ]
+    const proyectos = await obtenerProyectos()
     res.json({
-      proyectos: proyectos,
+      msg: "PETICION GET",
+      proyectos: proyectos
+    })
+  }else if(req.method=="POST"){
+    const data = req.body
+    const dataParse = JSON.parse(data)
+    await guardarProyectos(dataParse.nombre, "usuario en duro", dataParse.rating)
+    res.json({
       msg: ""
     })
   }else{

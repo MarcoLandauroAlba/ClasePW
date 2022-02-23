@@ -1,9 +1,11 @@
+import Image from "next/image"
 import { useEffect, useState } from "react"
 import Banner from "../components/banner.component"
 import Footer from "../components/footer.component"
 import FormularioLogin from "../components/formulario_login.component"
 import ListaProyectos from "../components/lista_proyectos.component"
 import MenuNavegacion from "../components/menu_navegacion.component"
+
 
 const Home = () => {
 
@@ -48,11 +50,21 @@ const Home = () => {
   return (
     <div>
       <header>
+        <div className="logo">
+          <Image
+            src='/images/ulimalogo.jpeg'
+            alt="..."
+            width={640}
+            height={180}
+            layout='responsive'
+            objectFit="cover"
+          />
+        </div>
         <h1>Mi Portafolio</h1>
       </header>
       <MenuNavegacion />
       <div className="mt-4">
-        <Banner imagenes={listadoDeImagenes}/>
+        <Banner imagenes={listadoDeImagenes} />
         <div className="row mt-4">
           <ListaProyectos proyectos={listadoDeProyectos} modo="lista" />
           <FormularioLogin onLogin={loginHandler} error={errorLogin} />
