@@ -29,8 +29,10 @@ if (config.use_env_variable) {
 //     db[model.name] = model;
 //   });
 const model = require("../models/proyecto")
+const modelUsuario = require('../models/usuario')
 
 db[model(sequelize, Sequelize.DataTypes).name] = model(sequelize, Sequelize.DataTypes);
+db[modelUsuario(sequelize, Sequelize.DataTypes).name] = modelUsuario(sequelize, Sequelize.DataTypes);
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {

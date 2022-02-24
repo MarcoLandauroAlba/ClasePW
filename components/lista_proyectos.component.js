@@ -30,7 +30,7 @@ const ListaProyectos = (props) => {
                     return (
                       <tr key={element.id}>
                         <td>{element.nombre}</td>
-                        <td>{element.usuario}</td>
+                        <td>{element.idUsuario}</td>
                         <td>{element.rating}</td>
                       </tr>
                     )
@@ -66,10 +66,11 @@ const ListaProyectos = (props) => {
             <tbody id="data_proyectos">
               {
                 props.proyectos.map((element, index) => {
+                  console.log('element.idUsuario->',element.idUsuario)
                   return (
                     <tr key={element.id}>
                       <td>{element.nombre}</td>
-                      <td>{element.usuario}</td>
+                      <td>{element.idUsuario}</td>
                       <td>{element.rating}</td>
                       <td>
                         <button 

@@ -5,14 +5,14 @@ const ProyectoModal = (props) => {
 
   const [idOpcional, setIdOpcional] = useState(null)
   const [txtNombreProyecto, setTxtNombreProyecto] = useState('')
-  const [txtUsuario, setTxtUsuario] = useState('')
+  const [txtIdUsuario, setTxtIdUsuario] = useState('')
   const [txtRating, setTxtRating] = useState(0)
 
   const txtNombreProyectoOnChange = (event) => {
     setTxtNombreProyecto(event.target.value)
   }
-  const setTxtUsuarioOnChange = (event) => {
-    setTxtUsuario(event.target.value)
+  const setTxtIdUsuarioOnChange = (event) => {
+    setTxtIdUsuario(event.target.value)
   }
   const setTxtRatingOnChange = (event) => {
     setTxtRating(event.target.value)
@@ -20,9 +20,9 @@ const ProyectoModal = (props) => {
 
   const guardarOnClick = () => {
     if (props.modo == "nuevo") {
-      props.onGuardarProyecto(txtNombreProyecto, txtUsuario, txtRating)
+      props.onGuardarProyecto(txtNombreProyecto, txtIdUsuario, txtRating)
     } else {
-      props.onActualizarProyecto(idOpcional, txtNombreProyecto, txtUsuario, txtRating)
+      props.onActualizarProyecto(idOpcional, txtNombreProyecto, txtIdUsuario, txtRating)
     }
   }
 
@@ -31,11 +31,12 @@ const ProyectoModal = (props) => {
     if (props.modo == 'nuevo') {
       setIdOpcional(null)
       setTxtNombreProyecto('')
-      setTxtUsuario('')
+      setTxtIdUsuario('')
       setTxtRating(0)
     } else {
       setIdOpcional(props.proyecto.id)
       setTxtNombreProyecto(props.proyecto.nombre)
+      setTxtIdUsuario(props.proyecto.idUsuario)
       setTxtRating(props.proyecto.rating)
     }
   }, [props.modo])
@@ -54,7 +55,7 @@ const ProyectoModal = (props) => {
           </div>
           <div>
             <label className="form-label my-1">Usuario</label>
-            <input className="form-control" type="text" defaultValue={txtUsuario} onChange={setTxtUsuarioOnChange} />
+            <input className="form-control" type="text" defaultValue={txtIdUsuario} onChange={setTxtIdUsuarioOnChange} />
           </div>
           <div>
             <label className="form-label my-1">Rating</label>

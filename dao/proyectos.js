@@ -1,9 +1,10 @@
 const db = require("../sequelize/models")
 
-const guardarProyectos = async (nombreProyecto, usuario, rating) => {
+const guardarProyectos = async (nombreProyecto, idUsuario, rating) => {
   //INSERCION =================================
   const proyectoGuardado = await db.Proyecto.create({
     nombre: nombreProyecto,
+    idUsuario: idUsuario,
     rating: rating
   })
 }
@@ -36,6 +37,7 @@ const obtenerProyectoId = async(id) => {
 const modificarProyecto = async(proyecto) => {
   const proyectoModificar = await obtenerProyectoId(proyecto.id)
   proyectoModificar.nombre=proyecto.nombre
+  proyectoModificar.idUsuario=proyecto.idUsuario
   proyectoModificar.rating=proyecto.rating
   // ACTUALIZAMOS PROYECTO EN LA BD
   await proyectoModificar.save()

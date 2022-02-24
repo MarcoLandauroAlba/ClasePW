@@ -44,10 +44,10 @@ const MainPage = () => {
     setSeDebeMostrar(!seDebeMostrar)    //SE CAMBIA EL ESTADO DEL MODAL SEGUN EL LUGAR DE UTILIZACION
   }
 
-  const guardarProyectoHandler = async(nombreProyecto, usuario, rating) => {
+  const guardarProyectoHandler = async(nombreProyecto, idUsuario, rating) => {
     const proyecto = {
       nombre: nombreProyecto,
-      usuario: usuario,
+      idUsuario: idUsuario,
       rating: rating
     }
     const resp = await fetch('/api/proyectos',{
@@ -62,11 +62,11 @@ const MainPage = () => {
     setModoFormulario('nuevo')
   }
 
-  const actualizarProyectoHandler = async(id, nombreProyecto, usuario, rating) => {
+  const actualizarProyectoHandler = async(id, nombreProyecto, idUsuario, rating) => {
     const proyecto = {
       id: id,
       nombre: nombreProyecto,
-      usuario: usuario,
+      idUsuario: idUsuario,
       rating: rating
     }
     const resp = await fetch('/api/proyectos',{

@@ -10,7 +10,7 @@ const proyectosHandler = async(req, res) => {
   }else if(req.method=="POST"){
     const data = req.body
     const dataParse = JSON.parse(data)
-    await guardarProyectos(dataParse.nombre, "usuario en duro", dataParse.rating)
+    await guardarProyectos(dataParse.nombre, dataParse.idUsuario, dataParse.rating)
     res.json({
       msg: "se posteo un proyecto"
     })
