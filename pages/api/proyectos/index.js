@@ -1,11 +1,26 @@
 import { guardarProyectos, obtenerProyectos, modificarProyecto } from "../../../dao/proyectos"
+import { obtenerUsuario } from "../../../dao/usuarios"
 
 const proyectosHandler = async(req, res) => {
   if(req.method=="GET"){
     const proyectos = await obtenerProyectos()
+    const proyectosConUsername = []
+    for(let proyectito of proyectos){
+      const usuario = await obtenerUsuario(proyectito.idUsuario)
+      proyectosConUsername.push({
+        id:proyectito.id,
+        nombre:proyectito.nombre,
+        idUsuario: proyectito.idUsuario,
+        usuario: usuario.username,
+        rating: proyectito.rating,
+        createdAt: proyectito.createdAt,
+        updatedAt: proyectito.updatedAt
+      })
+    }
+    console.log('proyectosConUsername=>',proyectosConUsername)
     res.json({
       msg: "PETICION GET",
-      proyectos: proyectos
+      proyectos: proyectosConUsername
     })
   }else if(req.method=="POST"){
     const data = req.body

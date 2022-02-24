@@ -11,6 +11,7 @@ const MainPage = () => {
   const [modoFormulario, setModoFormulario] = useState('nuevo') //modo nuevo y edicion
   const [completoProyecto, setCompletoProyecto] = useState(null)
   const [listaDeProyectos, setListaDeProyectos] = useState([])
+  const [listaDeUsuarios, setListaDeUsuarios] = useState([])
 
   // FUNCIONES EXCLUSIVAS DE LISTA PROYECTOS
   
@@ -60,6 +61,7 @@ const MainPage = () => {
       await actualizarProyectos()
     }
     setModoFormulario('nuevo')
+    console.log('setModoFormulario(nuevo)=>')
   }
 
   const actualizarProyectoHandler = async(id, nombreProyecto, idUsuario, rating) => {
@@ -88,6 +90,8 @@ const MainPage = () => {
   
   useEffect(() => {
     const fetchUseEffect = async () => {
+      //api/usuarios
+      await actualizarUsuarios()
       //api/proyectos
       await actualizarProyectos()
     }
@@ -99,6 +103,15 @@ const MainPage = () => {
     const dataProj = await responseProj.json()
     if(dataProj.msg=="PETICION GET"){
       setListaDeProyectos(dataProj.proyectos)
+    }
+  }
+
+  const actualizarUsuarios = async() => {
+    const responseUsua = await fetch('/api/usuarios')
+    const dataUsua = await responseUsua.json()
+    if(dataUsua.msg=="PETICION GET"){
+      console.log('dataUsua.usuarios=>',dataUsua.usuarios)
+      setListaDeUsuarios(dataUsua.usuarios)
     }
   }
 
@@ -116,6 +129,7 @@ const MainPage = () => {
         modo="crud"
         onEliminarProyecto={eliminarProyectoHandler}
         onEditarProyecto={editarProyectoHandler}
+        /*usuarios={listaDeUsuarios}*/
       />
       <Footer />
       {/* ESPACIO PARA EL MODAL */}
@@ -126,6 +140,7 @@ const MainPage = () => {
         modo={modoFormulario}
         proyecto={completoProyecto}
         onActualizarProyecto={actualizarProyectoHandler}
+        usuarios={listaDeUsuarios}
       />
     </div>
   )

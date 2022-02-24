@@ -32,3 +32,14 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+##Sequelize commands
+- Useful commads:
+npm install --save-dev sequelize-cli
+npx sequelize init
+npx sequelize db:create
+npx sequelize model:generate --name Proyecto --attributes nombre:string,rating:float
+npx sequelize db:migrate
+npx sequelize model:generate --name Usuario --attributes nombre:string,username:string,password:string
+npx sequelize seed:generate --name data_inicial_usuarios
+npx sequelize db:seed:all 
