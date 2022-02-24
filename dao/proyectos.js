@@ -6,12 +6,14 @@ const guardarProyectos = async (nombreProyecto, usuario, rating) => {
     nombre: nombreProyecto,
     rating: rating
   })
-  
-  return proyectoGuardado
 }
 const obtenerProyectos = async () => {
   //QUERY =====================================
-  const proyectos = await db.Proyecto.findAll()
+  const proyectos = await db.Proyecto.findAll({
+    order: [
+      ["id","ASC"]
+    ]
+  })
   return proyectos
 }
 const eliminarProyectoId = async(id) => {
@@ -22,29 +24,20 @@ const eliminarProyectoId = async(id) => {
     }
   })
 }
-const obtenerProyectoId = (id) => {
-  // const proyectosStr = localStorage.getItem("proyectos")
-  // const proyectosParse = JSON.parse(proyectosStr)
-  // for (let proyectito of proyectosParse) {
-  //   if (proyectito.id == id) {
-  //     return proyectito
-  //   }
-  // }
-  // return null
+const obtenerProyectoId = async(id) => {
+  //QUERY =====================================
+  const proyecto = await db.Proyecto.findOne({
+    where: {
+      id:id
+    }
+  })
+  return proyecto
 }
-const modificarProyecto = (proyecto) => {
-  // let proyectosStr = localStorage.getItem("proyectos")
-  // const proyectosParse = JSON.parse(proyectosStr)
-  // for (let proyectito of proyectosParse) {
-  //   if (proyectito.id == proyecto.id) {
-  //     proyectito.nombre = proyecto.nombre
-  //     proyectito.usuario = proyecto.usuario
-  //     proyectito.rating = proyecto.rating
-  //     break
-  //   }
-  // }
-  // proyectosStr = JSON.stringify(proyectosParse)
-  // localStorage.setItem('proyectos', proyectosStr)
-
+const modificarProyecto = async(proyecto) => {
+  const proyectoModificar = await obtenerProyectoId(proyecto.id)
+  proyectoModificar.nombre=proyecto.nombre
+  proyectoModificar.rating=proyecto.rating
+  // ACTUALIZAMOS PROYECTO EN LA BD
+  await proyectoModificar.save()
 }
 export { guardarProyectos, obtenerProyectos, eliminarProyectoId, obtenerProyectoId, modificarProyecto }

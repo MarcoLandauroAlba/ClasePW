@@ -1,4 +1,4 @@
-import { guardarProyectos, obtenerProyectos } from "../../../dao/proyectos"
+import { guardarProyectos, obtenerProyectos, modificarProyecto } from "../../../dao/proyectos"
 
 const proyectosHandler = async(req, res) => {
   if(req.method=="GET"){
@@ -12,7 +12,15 @@ const proyectosHandler = async(req, res) => {
     const dataParse = JSON.parse(data)
     await guardarProyectos(dataParse.nombre, "usuario en duro", dataParse.rating)
     res.json({
-      msg: ""
+      msg: "se posteo un proyecto"
+    })
+  }else if(req.method=="PUT"){
+    const data = req.body
+    console.log('data->',data)
+    const dataParse = JSON.parse(data)
+    await modificarProyecto(dataParse)
+    res.json({
+      msg:"metodo put",
     })
   }else{
     res.status(400).json({

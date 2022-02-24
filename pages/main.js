@@ -7,18 +7,13 @@ import { useEffect, useState } from "react"
 
 const MainPage = () => {
 
-  // CODIGO PARA PROYECTO MODAL INICIO
   const [seDebeMostrar, setSeDebeMostrar] = useState(false)
-  const seDebeMostrarOnClick = () => {
-    setModoFormulario('nuevo')
-    setSeDebeMostrar(!seDebeMostrar)
-  }
   const [modoFormulario, setModoFormulario] = useState('nuevo') //modo nuevo y edicion
-  // CODIGO PARA PROYECTO MODAL FIN
-
-
-  // CODIGO PARA LISTA PROYECTOS INICIO
+  const [completoProyecto, setCompletoProyecto] = useState(null)
   const [listaDeProyectos, setListaDeProyectos] = useState([])
+
+  // FUNCIONES EXCLUSIVAS DE LISTA PROYECTOS
+  
   const eliminarProyectoHandler = async(id) => {
     const resp = await fetch(`/api/proyectos/${id}`,{
       method:"DELETE"
@@ -28,15 +23,27 @@ const MainPage = () => {
       await actualizarProyectos()
     }
   }
-  const actualizarProyectos = async() => {
-    const responseProj = await fetch("/api/proyectos")
-    const dataProj = await responseProj.json()
-    setListaDeProyectos(dataProj.proyectos)
+  
+  const editarProyectoHandler = async(id) => {
+    console.log("entro a editar proyecto: ", id)
+    const resp = await fetch(`/api/proyectos/${id}`)
+    const data = await resp.json()
+    setCompletoProyecto(data.proyecto)              //PRIMERO SE ACTUALIZA EL PROYECTO INTERNO
+    setModoFormulario('edicion')                    //LUEGO SE ACTUALIZA EL MODO A EDICION
+    setSeDebeMostrar(true)                          //AL FINAL SE MUESTRA EL MODAL
   }
-  // CODIGO PARA LISTA PROYECTOS FIN
 
 
-  //CODIGO UTILIZADO POR LISTAPROYECTOS Y PROYECTOMODAL INICIO
+
+  
+  // FUNCIONES DE PROYECTO MODAL
+  const seDebeMostrarOnClick = () => {
+    console.log('CREANDO UN NUEV PROYECTO: MAIN:seDebeMostrarOnClick()')
+    setCompletoProyecto(null)                       //PRIMERO SE ACTUALIZA EL PROYECTO INTERNO
+    setModoFormulario('nuevo')                      //LUEGO SE ACTUALIZA EL MODO A EDICION
+    setSeDebeMostrar(!seDebeMostrar)    //SE CAMBIA EL ESTADO DEL MODAL SEGUN EL LUGAR DE UTILIZACION
+  }
+
   const guardarProyectoHandler = async(nombreProyecto, usuario, rating) => {
     const proyecto = {
       nombre: nombreProyecto,
@@ -48,15 +55,37 @@ const MainPage = () => {
       body: JSON.stringify(proyecto)
     })
     const data = await resp.json()
-    if(data.msg ==""){
+    if(data.msg =="se posteo un proyecto"){
       setSeDebeMostrar(false)
       await actualizarProyectos()
     }
+    setModoFormulario('nuevo')
   }
-  const editarProyectoHandler = (id) => {
-    setModoFormulario('edicion')
-    setSeDebeMostrar(true)
+
+  const actualizarProyectoHandler = async(id, nombreProyecto, usuario, rating) => {
+    const proyecto = {
+      id: id,
+      nombre: nombreProyecto,
+      usuario: usuario,
+      rating: rating
+    }
+    const resp = await fetch('/api/proyectos',{
+      method: "PUT",
+      body: JSON.stringify(proyecto)
+    })
+    const data = await resp.json()
+    if(data.msg =="metodo put"){
+      setSeDebeMostrar(false)
+      await actualizarProyectos()
+    }
+    setModoFormulario('nuevo')
   }
+
+  
+
+  
+  
+  
   useEffect(() => {
     const fetchUseEffect = async () => {
       //api/proyectos
@@ -64,7 +93,15 @@ const MainPage = () => {
     }
     fetchUseEffect()
   }, [])
-  //CODIGO UTILIZADO POR LISTAPROYECTOS Y PROYECTOMODAL FIN
+
+  const actualizarProyectos = async() => {
+    const responseProj = await fetch("/api/proyectos")
+    const dataProj = await responseProj.json()
+    if(dataProj.msg=="PETICION GET"){
+      setListaDeProyectos(dataProj.proyectos)
+    }
+  }
+
 
 
   return (
@@ -87,6 +124,8 @@ const MainPage = () => {
         ocultar={seDebeMostrarOnClick}
         onGuardarProyecto={guardarProyectoHandler}
         modo={modoFormulario}
+        proyecto={completoProyecto}
+        onActualizarProyecto={actualizarProyectoHandler}
       />
     </div>
   )

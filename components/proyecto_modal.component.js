@@ -1,11 +1,12 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button, Modal } from "react-bootstrap"
 
 const ProyectoModal = (props) => {
 
-  const [txtNombreProyecto,setTxtNombreProyecto] = useState('')
-  const [txtUsuario,setTxtUsuario] = useState('')
-  const [txtRating,setTxtRating] = useState(0)
+  const [idOpcional, setIdOpcional] = useState(null)
+  const [txtNombreProyecto, setTxtNombreProyecto] = useState('')
+  const [txtUsuario, setTxtUsuario] = useState('')
+  const [txtRating, setTxtRating] = useState(0)
 
   const txtNombreProyectoOnChange = (event) => {
     setTxtNombreProyecto(event.target.value)
@@ -18,11 +19,26 @@ const ProyectoModal = (props) => {
   }
 
   const guardarOnClick = () => {
-    props.onGuardarProyecto(txtNombreProyecto,txtUsuario,txtRating)
-    setTxtNombreProyecto('')
-    setTxtUsuario('')
-    setTxtRating(0)
+    if (props.modo == "nuevo") {
+      props.onGuardarProyecto(txtNombreProyecto, txtUsuario, txtRating)
+    } else {
+      props.onActualizarProyecto(idOpcional, txtNombreProyecto, txtUsuario, txtRating)
+    }
   }
+
+  useEffect(() => {
+    console.log('modo de muestra ->', props.modo)
+    if (props.modo == 'nuevo') {
+      setIdOpcional(null)
+      setTxtNombreProyecto('')
+      setTxtUsuario('')
+      setTxtRating(0)
+    } else {
+      setIdOpcional(props.proyecto.id)
+      setTxtNombreProyecto(props.proyecto.nombre)
+      setTxtRating(props.proyecto.rating)
+    }
+  }, [props.modo])
 
   return (
     <Modal show={props.mostrar} onHide={props.ocultar}>
@@ -34,15 +50,15 @@ const ProyectoModal = (props) => {
         <form>
           <div>
             <label className="form-label my-1">Nombre de Proyecto</label>
-            <input className="form-control" type="text" defaultValue={txtNombreProyecto} onChange={txtNombreProyectoOnChange}/>
+            <input className="form-control" type="text" defaultValue={txtNombreProyecto} onChange={txtNombreProyectoOnChange} />
           </div>
           <div>
             <label className="form-label my-1">Usuario</label>
-            <input className="form-control" type="text" defaultValue={txtUsuario} onChange={setTxtUsuarioOnChange}/>
+            <input className="form-control" type="text" defaultValue={txtUsuario} onChange={setTxtUsuarioOnChange} />
           </div>
           <div>
             <label className="form-label my-1">Rating</label>
-            <input className="form-control" type="number" defaultValue={txtRating} onChange={setTxtRatingOnChange}/>
+            <input className="form-control" type="number" defaultValue={txtRating} onChange={setTxtRatingOnChange} />
           </div>
         </form>
       </Modal.Body>
