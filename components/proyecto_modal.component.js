@@ -7,6 +7,7 @@ const ProyectoModal = (props) => {
   const [txtNombreProyecto, setTxtNombreProyecto] = useState('')
   const [txtIdUsuario, setTxtIdUsuario] = useState(0)
   const [txtRating, setTxtRating] = useState(0)
+  const [listaIdTecnologiasSeleccionadas, setListaIdTecnologiasSeleccionadas] = useState([])
 
   const txtNombreProyectoOnChange = (event) => {
     setTxtNombreProyecto(event.target.value)
@@ -17,37 +18,45 @@ const ProyectoModal = (props) => {
   const setTxtRatingOnChange = (event) => {
     setTxtRating(event.target.value)
   }
+  const setListaTecnologiasSeleccionadasOnChange = (event) => {
+    const listaIds = Array.from(event.target.selectedOptions).map((valor) => { return parseInt(valor.value) })
+    setListaIdTecnologiasSeleccionadas(listaIds)
+  }
 
   const guardarOnClick = () => {
-    if(txtIdUsuario!=0){
+    if (txtIdUsuario != 0) {
       if (props.modo == "nuevo") {
-        props.onGuardarProyecto(txtNombreProyecto, txtIdUsuario, txtRating)
+        props.onGuardarProyecto(txtNombreProyecto, txtIdUsuario, txtRating, listaIdTecnologiasSeleccionadas)
       } else {
-        props.onActualizarProyecto(idOpcional, txtNombreProyecto, txtIdUsuario, txtRating)
+        props.onActualizarProyecto(idOpcional, txtNombreProyecto, txtIdUsuario, txtRating, listaIdTecnologiasSeleccionadas)
       }
       borrarDatos()
-    }else{
+    } else {
       //nothing happens cz the user hasn't selected a father user
     }
   }
 
   useEffect(() => {
-    console.log('modo de muestra ->', props.modo)
     if (props.modo == 'nuevo') {
       borrarDatos()
     } else {
-      setIdOpcional(props.proyecto.id)
-      setTxtNombreProyecto(props.proyecto.nombre)
-      setTxtIdUsuario(props.proyecto.idUsuario)
-      setTxtRating(props.proyecto.rating)
+      if(props.proyecto!=null){
+        setIdOpcional(props.proyecto.id)
+        setTxtNombreProyecto(props.proyecto.nombre)
+        setTxtIdUsuario(props.proyecto.idUsuario)
+        setTxtRating(props.proyecto.rating)
+        setListaIdTecnologiasSeleccionadas(props.proyecto.tecnologias)
+        console.log('props.proyecto.tecnologias',props.proyecto.tecnologias)
+      }
     }
-  }, [props.modo])
+  }, [props.modo, props.proyecto])
 
   const borrarDatos = () => {
     setIdOpcional(null)
-    setTxtNombreProyecto('') 
+    setTxtNombreProyecto('')
     setTxtIdUsuario(0)
     setTxtRating(0)
+    setListaIdTecnologiasSeleccionadas([])
   }
 
   return (
@@ -60,11 +69,11 @@ const ProyectoModal = (props) => {
         <form>
           <div>
             <label className="form-label my-1">Nombre de Proyecto</label>
-            <input 
-              className="form-control" 
-              type="text" 
-              defaultValue={txtNombreProyecto} 
-              onChange={txtNombreProyectoOnChange} 
+            <input
+              className="form-control"
+              type="text"
+              defaultValue={txtNombreProyecto}
+              onChange={txtNombreProyectoOnChange}
             />
           </div>
           <div>
@@ -72,13 +81,13 @@ const ProyectoModal = (props) => {
             <select className="form-select" defaultValue={txtIdUsuario} onChange={setTxtIdUsuarioOnChange}>
               <option value={0}>---------SELECCIONE UNA OPCION---------</option>
               {
-                props.usuarios.map((usuario)=>{
+                props.usuarios.map((usuario) => {
                   return (
-                    <option 
-                      key={usuario.id} 
+                    <option
+                      key={usuario.id}
                       value={usuario.id}
                     >
-                        {usuario.username}
+                      {usuario.username}
                     </option>
                   )
                 })
@@ -87,12 +96,26 @@ const ProyectoModal = (props) => {
           </div>
           <div>
             <label className="form-label my-1">Rating</label>
-            <input 
-              className="form-control" 
-              type="number" 
-              defaultValue={txtRating} 
-              onChange={setTxtRatingOnChange} 
+            <input
+              className="form-control"
+              type="number"
+              defaultValue={txtRating}
+              onChange={setTxtRatingOnChange}
             />
+          </div>
+          <div>
+            <label className="form-label my-1">Tecnologias</label>
+            <select value={listaIdTecnologiasSeleccionadas} multiple className="form-select" onChange={setListaTecnologiasSeleccionadasOnChange}>
+              {
+                props.tecnologias.map((tecnito) => {
+                  return (
+                    <option value={tecnito.id} key={tecnito.id}>
+                      {tecnito.nombre}
+                    </option>
+                  )
+                })
+              }
+            </select>
           </div>
         </form>
       </Modal.Body>

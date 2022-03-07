@@ -3,7 +3,6 @@ import { eliminarProyectoId, obtenerProyectoId } from "../../../../dao/proyectos
 const proyectosIdHandler = async(req, res) => {
   if(req.method=="DELETE"){
     const data = req.query
-    console.log("se eliminara el proyecto con id " + data.id)
     await eliminarProyectoId(data.id)
     res.json({
       msg: "metodo delete [id]",

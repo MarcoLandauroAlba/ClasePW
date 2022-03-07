@@ -12,6 +12,7 @@ const MainPage = () => {
   const [completoProyecto, setCompletoProyecto] = useState(null)
   const [listaDeProyectos, setListaDeProyectos] = useState([])
   const [listaDeUsuarios, setListaDeUsuarios] = useState([])
+  const [listadoTecnologias, setListadoTecnologias] = useState([])
 
   // FUNCIONES EXCLUSIVAS DE LISTA PROYECTOS
   
@@ -26,7 +27,6 @@ const MainPage = () => {
   }
   
   const editarProyectoHandler = async(id) => {
-    console.log("entro a editar proyecto: ", id)
     const resp = await fetch(`/api/proyectos/${id}`)
     const data = await resp.json()
     setCompletoProyecto(data.proyecto)              //PRIMERO SE ACTUALIZA EL PROYECTO INTERNO
@@ -39,17 +39,17 @@ const MainPage = () => {
   
   // FUNCIONES DE PROYECTO MODAL
   const seDebeMostrarOnClick = () => {
-    console.log('CREANDO UN NUEV PROYECTO: MAIN:seDebeMostrarOnClick()')
     setCompletoProyecto(null)                       //PRIMERO SE ACTUALIZA EL PROYECTO INTERNO
     setModoFormulario('nuevo')                      //LUEGO SE ACTUALIZA EL MODO A EDICION
     setSeDebeMostrar(!seDebeMostrar)    //SE CAMBIA EL ESTADO DEL MODAL SEGUN EL LUGAR DE UTILIZACION
   }
 
-  const guardarProyectoHandler = async(nombreProyecto, idUsuario, rating) => {
+  const guardarProyectoHandler = async(nombreProyecto, idUsuario, rating, listaTecnologias) => {
     const proyecto = {
       nombre: nombreProyecto,
       idUsuario: idUsuario,
-      rating: rating
+      rating: rating,
+      tecnologias: listaTecnologias
     }
     const resp = await fetch('/api/proyectos',{
       method: "POST",
@@ -61,15 +61,15 @@ const MainPage = () => {
       await actualizarProyectos()
     }
     setModoFormulario('nuevo')
-    console.log('setModoFormulario(nuevo)=>')
   }
 
-  const actualizarProyectoHandler = async(id, nombreProyecto, idUsuario, rating) => {
+  const actualizarProyectoHandler = async(id, nombreProyecto, idUsuario, rating, listaTecnologias) => {
     const proyecto = {
       id: id,
       nombre: nombreProyecto,
       idUsuario: idUsuario,
-      rating: rating
+      rating: rating,
+      tecnologias: listaTecnologias
     }
     const resp = await fetch('/api/proyectos',{
       method: "PUT",
@@ -90,6 +90,8 @@ const MainPage = () => {
   
   useEffect(() => {
     const fetchUseEffect = async () => {
+      //api/tecnologias
+      await descargarTecnologias()
       //api/usuarios
       await actualizarUsuarios()
       //api/proyectos
@@ -105,13 +107,18 @@ const MainPage = () => {
       setListaDeProyectos(dataProj.proyectos)
     }
   }
-
   const actualizarUsuarios = async() => {
     const responseUsua = await fetch('/api/usuarios')
     const dataUsua = await responseUsua.json()
     if(dataUsua.msg=="PETICION GET"){
-      console.log('dataUsua.usuarios=>',dataUsua.usuarios)
       setListaDeUsuarios(dataUsua.usuarios)
+    }
+  }
+  const descargarTecnologias = async() => {
+    const responseTec = await fetch('/api/tecnologias')
+    const dataTec = await responseTec.json()
+    if(dataTec.msg=="respuesta TEC GET"){
+      setListadoTecnologias(dataTec.tecnologias)
     }
   }
 
@@ -141,6 +148,7 @@ const MainPage = () => {
         proyecto={completoProyecto}
         onActualizarProyecto={actualizarProyectoHandler}
         usuarios={listaDeUsuarios}
+        tecnologias={listadoTecnologias}
       />
     </div>
   )

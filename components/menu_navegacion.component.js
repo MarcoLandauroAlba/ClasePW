@@ -10,10 +10,10 @@ const MenuNavegacion = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="/">Index</a>
+              <button className="btn nav-link active" aria-current="page">Index</button>
             </li>
             <li className="nav-item">
-              <a className="nav-link" aria-current="page" href="/main">Main</a>
+              <button className="btn nav-link" aria-current="page" href="/main">Main</button>
             </li>
           </ul>
         </div>

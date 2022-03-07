@@ -17,7 +17,6 @@ const proyectosHandler = async(req, res) => {
         updatedAt: proyectito.updatedAt
       })
     }
-    console.log('proyectosConUsername=>',proyectosConUsername)
     res.json({
       msg: "PETICION GET",
       proyectos: proyectosConUsername
@@ -25,13 +24,13 @@ const proyectosHandler = async(req, res) => {
   }else if(req.method=="POST"){
     const data = req.body
     const dataParse = JSON.parse(data)
-    await guardarProyectos(dataParse.nombre, dataParse.idUsuario, dataParse.rating)
+    await guardarProyectos(dataParse.nombre, dataParse.idUsuario, dataParse.rating, dataParse.tecnologias)
+
     res.json({
       msg: "se posteo un proyecto"
     })
   }else if(req.method=="PUT"){
     const data = req.body
-    console.log('data->',data)
     const dataParse = JSON.parse(data)
     await modificarProyecto(dataParse)
     res.json({

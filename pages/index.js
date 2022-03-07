@@ -41,7 +41,6 @@ const Home = () => {
     if (user == "billy" && password == "123") {
       location.href = "/main"
     } else {
-      console.log("Error en login")
       setErrorLogin(true)
     }
   }

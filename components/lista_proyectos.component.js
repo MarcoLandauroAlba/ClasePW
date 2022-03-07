@@ -27,7 +27,6 @@ const ListaProyectos = (props) => {
               <tbody id="data_proyectos">
                 {
                   props.proyectos.map((element, index) => {
-                    console.log('element=>', element)
                     return (
                       <tr key={element.id}>
                         <td>{element.nombre}</td>
@@ -67,7 +66,6 @@ const ListaProyectos = (props) => {
             <tbody id="data_proyectos">
               {
                 props.proyectos.map((element, index) => {
-                  console.log('element=>', element)
                   return (
                     <tr key={element.id}>
                       <td>{element.nombre}</td>
